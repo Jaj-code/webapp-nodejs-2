@@ -1,0 +1,27 @@
+name: Sync Github master Code base to VM
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  update-code:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set up Git
+      run: |
+        git config --global user.email "jajitha.k@gmail.com"
+        git config --global user.name "Jajitha"
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+    - name: install ssh keys
+      run: |
+        mkdir -p ~/.ssh
+        install -m 600 -D /dev/null ~/.ssh/id_rsa
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        ssh-keyscan -p 15249 -H ${{ secrets.VM_IP_ADDRESS }} > ~/.ssh/known_hosts
+    - name: connect and pull
+      run: ssh -o StrictHostKeyChecking=no -p 15249 ${{ secrets.VM_USERNAME }}@${{ secrets.VM_IP_ADDRESS }} "cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull origin master && exit"
+    - name: cleanup
+      run: rm -rf ~/.ssh
