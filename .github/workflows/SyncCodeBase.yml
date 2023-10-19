@@ -25,13 +25,13 @@ jobs:
       run: ssh -o StrictHostKeyChecking=no -p ${{ secrets.VM_PORT }} ${{ secrets.VM_USERNAME }}@${{ secrets.VM_IP_ADDRESS }} "cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull origin master && exit"
     - name: cleanup
       run: rm -rf ~/.ssh
-    - name: Send Email Notification
-      run: |
-        npm install nodemailer
-        node -e "const nodemailer = require('nodemailer'); const transporter = nodemailer.createTransport({ service: 'Gmail', auth: { user: process.env.SMTP_USERNAME, pass: process.env.SMTP_PASSWORD, }, }); const mailOptions = { from: process.env.SMTP_USERNAME, to: process.env.RECIPIENT_EMAIL, subject: 'Codebase Update', text: 'There has been a update on the remote repository. And the system is updated with latest code.', }; transporter.sendMail(mailOptions, function(error, info) { if (error) { console.log(error); } else { console.log('Email sent: ' + info.response); } });"
-      env:
-        SMTP_SERVER: smtp.gmail.com
-        SMTP_PORT: 587
-        SMTP_USERNAME: ${{ secrets.GMAIL_EMAIL }}
-        SMTP_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
-        RECIPIENT_EMAIL: jajitha.k@gmail.com
+    # - name: Send Email Notification
+    #   run: |
+    #     npm install nodemailerß
+    #     node -e "const nodemailer = require('nodemailer'); const transporter = nodemailer.createTransport({ service: 'Gmail', auth: { user: process.env.SMTP_USERNAME, pass: process.env.SMTP_PASSWORD, }, }); const mailOptions = { from: process.env.SMTP_USERNAME, to: process.env.RECIPIENT_EMAIL, subject: 'Codebase Update', text: 'There has been a update on the remote repository. And the system is updated with latest code.', }; transporter.sendMail(mailOptions, function(error, info) { if (error) { console.log(error); } else { console.log('Email sent: ' + info.response); } });"
+    #   env:
+    #     SMTP_SERVER: smtp.gmail.com
+    #     SMTP_PORT: 587
+    #     SMTP_USERNAME: ${{ secrets.GMAIL_EMAIL }}
+    #     SMTP_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
+    #     RECIPIENT_EMAIL: jajitha.k@gmail.com
