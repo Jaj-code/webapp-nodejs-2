@@ -33,11 +33,18 @@ jobs:
       run: npm install  # or use your package manager
     - name: Send Email Notification
       run: |
-        npm install nodemailer
-        node -e "const nodemailer = require('nodemailer'); const transporter = nodemailer.createTransport({ service: 'Gmail',host: process.env.SMTP_SERVER,port: process.env.SMTP_PORT, auth: { user: process.env.SMTP_USERNAME, pass: process.env.SMTP_PASSWORD, }, }); const mailOptions = { from: process.env.SMTP_USERNAME, to: process.env.RECIPIENT_EMAIL, subject: 'Codebase Update', text: 'There has been a update on the remote repository. And the system is updated with latest code.', }; transporter.sendMail(mailOptions, function(error, info) { if (error) { console.log(error); } else { console.log('Email sent: ' + info.response); } });"
+        echo "Subject: Pipeline Execution Successful" | \
+        sendmail -S $SMTP_SERVER:$SMTP_PORT -au$SMTP_USERNAME -ap$SMTP_PASSWORD jajitha.k@gmail.com
       env:
         SMTP_SERVER: smtp.gmail.com
         SMTP_PORT: 587
         SMTP_USERNAME: ${{ secrets.GMAIL_EMAIL }}
         SMTP_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
         RECIPIENT_EMAIL: jajitha.k@gmail.com
+
+
+
+        # npm install nodemailer
+        # node -e "const nodemailer = require('nodemailer'); const transporter = nodemailer.createTransport({ service: 'Gmail',host: process.env.SMTP_SERVER,port: process.env.SMTP_PORT, auth: { user: process.env.SMTP_USERNAME, pass: process.env.SMTP_PASSWORD, }, }); const mailOptions = { from: process.env.SMTP_USERNAME, to: process.env.RECIPIENT_EMAIL, subject: 'Codebase Update', text: 'There has been a update on the remote repository. And the system is updated with latest code.', }; transporter.sendMail(mailOptions, function(error, info) { if (error) { console.log(error); } else { console.log('Email sent: ' + info.response); } });"
+
+        
