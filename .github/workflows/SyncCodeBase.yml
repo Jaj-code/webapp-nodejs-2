@@ -31,25 +31,13 @@ jobs:
         node-version: '14'
     - name: Install dependencies
       run: npm install  # or use your package manager
-  
-    - name: Send email
-      uses: wadeww/send-email-action@v1
-      with:
-        server_address: smtp.gmail.com
-        port: 465
-        username: ${{secrets.GMAIL_EMAIL}}
-        password: ${{secrets.GMAIL_PASSWORD}}
-        subject: Workflow finished
-        body: code updated to local machine
-        to: jajitha.k@gmail.com
-        from: Me
-    # - name: Send Email Notification
-    #   run: |
-    #     npm install nodemailer
-    #     node -e "const nodemailer = require('nodemailer'); const transporter = nodemailer.createTransport({ service: 'Gmail',host: process.env.SMTP_SERVER,port: process.env.SMTP_PORT, auth: { user: process.env.SMTP_USERNAME, pass: process.env.SMTP_PASSWORD, }, }); const mailOptions = { from: process.env.SMTP_USERNAME, to: process.env.RECIPIENT_EMAIL, subject: 'Codebase Update', text: 'There has been a update on the remote repository. And the system is updated with latest code.', }; transporter.sendMail(mailOptions, function(error, info) { if (error) { console.log(error); } else { console.log('Email sent: ' + info.response); } });"
-    #   env:
-    #     SMTP_SERVER: smtp.gmail.com
-    #     SMTP_PORT: 587
-    #     SMTP_USERNAME: ${{ secrets.GMAIL_EMAIL }}
-    #     SMTP_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
-    #     RECIPIENT_EMAIL: jajitha.k@gmail.com
+    - name: Send Email Notification
+      run: |
+        npm install nodemailer
+        node -e "const nodemailer = require('nodemailer'); const transporter = nodemailer.createTransport({ service: 'Gmail',host: process.env.SMTP_SERVER,port: process.env.SMTP_PORT, auth: { user: process.env.SMTP_USERNAME, pass: process.env.SMTP_PASSWORD, }, }); const mailOptions = { from: process.env.SMTP_USERNAME, to: process.env.RECIPIENT_EMAIL, subject: 'Codebase Update', text: 'There has been a update on the remote repository. And the system is updated with latest code.', }; transporter.sendMail(mailOptions, function(error, info) { if (error) { console.log(error); } else { console.log('Email sent: ' + info.response); } });"
+      env:
+        SMTP_SERVER: smtp.gmail.com
+        SMTP_PORT: 587
+        SMTP_USERNAME: ${{ secrets.GMAIL_EMAIL }}
+        SMTP_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
+        RECIPIENT_EMAIL: jajitha.k@gmail.com
