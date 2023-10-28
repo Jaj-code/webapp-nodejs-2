@@ -25,6 +25,10 @@ jobs:
       run: ssh -o StrictHostKeyChecking=no -p ${{ secrets.VM_PORT }} ${{ secrets.VM_USERNAME }}@${{ secrets.VM_IP_ADDRESS }} "cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull origin master && exit"
     - name: cleanup
       run: rm -rf ~/.ssh
+
+  send-email:
+    runs-on: ubuntu-latest
+    steps:  
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
