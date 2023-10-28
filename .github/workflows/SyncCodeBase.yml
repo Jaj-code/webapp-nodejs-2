@@ -32,9 +32,17 @@ jobs:
     - name: Install dependencies
       run: npm install  # or use your package manager
   
-    - name: Send email notification
-      run: |
-        echo "Codebase updated!" | mail -s "Codebase Update" jajitha.k@gmail.com
+    - name: Send some mail
+      uses: wadeww/send-email-action@master
+      with:
+        server_address: smtp.gmail.com
+        port: 465
+        username: ${{secrets.GMAIL_EMAIL}}
+        password: ${{secrets.GMAIL_PASSWORD}}
+        subject: Workflow finished
+        body: code updated to local machine
+        to: jajitha.k@gmail.com
+        from: Me
     # - name: Send Email Notification
     #   run: |
     #     npm install nodemailer
