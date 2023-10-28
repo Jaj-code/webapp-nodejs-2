@@ -35,7 +35,7 @@ jobs:
       if: ${{ github.event.workflow_run.conclusion == 'success' }}
       run: |
         echo "Subject: Pipeline Execution Successful" | \
-        sendmail -S $SMTP_SERVER:$SMTP_PORT -au$SMTP_USERNAME -ap$SMTP_PASSWORD jajitha.k@gmail.com
+        mail -S $SMTP_SERVER:$SMTP_PORT -au$SMTP_USERNAME -ap$SMTP_PASSWORD jajitha.k@gmail.com
       env:
         SMTP_SERVER: smtp.gmail.com
         SMTP_PORT: 587
