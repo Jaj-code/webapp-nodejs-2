@@ -25,10 +25,16 @@ jobs:
       run: ssh -o StrictHostKeyChecking=no -p ${{ secrets.VM_PORT }} ${{ secrets.VM_USERNAME }}@${{ secrets.VM_IP_ADDRESS }} "cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull origin master && exit"
     - name: cleanup
       run: rm -rf ~/.ssh
-    # - name: Setup Node.js
-    #   uses: actions/setup-node@v4
-    #   with:
-    #     node-version: '14'
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '14'
+    - name: Install dependencies
+      run: npm install  # or use your package manager
+  
+    - name: Send email notification
+      run: |
+        echo "Codebase updated!" | mail -s "Codebase Update" jajitha.k@gmail.com
     # - name: Send Email Notification
     #   run: |
     #     npm install nodemailer
