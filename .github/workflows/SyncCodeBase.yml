@@ -32,6 +32,7 @@ jobs:
     - name: Install dependencies
       run: npm install  # or use your package manager
     - name: Send Email Notification
+      if: ${{ github.event.workflow_run.conclusion == 'success' }}
       run: |
         echo "Subject: Pipeline Execution Successful" | \
         sendmail -S $SMTP_SERVER:$SMTP_PORT -au$SMTP_USERNAME -ap$SMTP_PASSWORD jajitha.k@gmail.com
